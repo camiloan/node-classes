@@ -1,5 +1,4 @@
-import Role from '../models/role.js';
-import usuario from '../models/usuario.js';
+import { Categoria, Producto, Role, Usuario } from '../models/index.js';
 
 const esRoleValido = async (rol = '') => {
   const existeRol = await Role.findOne({ rol });
@@ -10,17 +9,39 @@ const esRoleValido = async (rol = '') => {
 
 const emailExiste = async (correo = '') => {
   // Verificar si el correo existe
-  const existeEmail = await usuario.findOne({ correo });
+  const existeEmail = await Usuario.findOne({ correo });
   if (existeEmail) {
     throw new Error(`El correo: ${correo}, ya está registrado`);
   }
 };
 
 const existeUsuarioPorId = async (id) => {
-  const existeUsuario = await usuario.findById(id);
+  const existeUsuario = await Usuario.findById(id);
   if (!existeUsuario) {
     throw new Error(`El id no existe ${id}`);
   }
 };
 
-export { esRoleValido, emailExiste, existeUsuarioPorId };
+const existeCategoriaPorId = async (id) => {
+  // const query = { estado: true };
+  const existeCategoria = await Categoria.findById(id);
+  if (!existeCategoria) {
+    throw new Error(`El id no existe ${id}`);
+  }
+};
+
+const existeProductoPorId = async (id) => {
+  // const query = { estado: true };
+  const existeProducto = await Producto.findById(id);
+  if (!existeProducto) {
+    throw new Error(`El producto no existe ${id}`);
+  }
+};
+
+export {
+  esRoleValido,
+  emailExiste,
+  existeUsuarioPorId,
+  existeCategoriaPorId,
+  existeProductoPorId,
+};
